@@ -5,13 +5,13 @@ const users_model_1 = require("./users.model");
 class UsersRouter extends router_1.Router {
     applyRoutes(application) {
         application.get('/users', (req, resp, next) => {
-            users_model_1.User.findAll().then(users => {
+            users_model_1.User.find().then(users => {
                 resp.json(users);
                 next();
             });
         });
         application.get('/users/:id', (req, resp, next) => {
-            users_model_1.User.finfById(req.params.id).then(user => {
+            users_model_1.User.findById(req.params.id).then(user => {
                 if (user) {
                     resp.json(user);
                     return next();
@@ -23,4 +23,3 @@ class UsersRouter extends router_1.Router {
     }
 }
 exports.usersRouter = new UsersRouter();
-//# sourceMappingURL=users.router.js.map

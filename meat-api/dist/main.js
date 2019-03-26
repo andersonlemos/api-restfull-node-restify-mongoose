@@ -10,4 +10,3 @@ server.bootstrap([users_router_1.usersRouter]).then(server => {
     console.error(error);
     process.exit(1);
 });
-//# sourceMappingURL=main.js.map
