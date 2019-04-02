@@ -6,6 +6,11 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router{
   constructor(protected model:mongoose.Model<D>){
     super();
   }
+
+  protected prepareOne(query: mongoose.DocumentQuery<D,D>):mongoose.DocumentQuery<D,D>{
+    return query
+  }
+
   validateId = (req,res,next)=>{
     if(!mongoose.Types.ObjectId.isValid(req.params.id)){
       next(new NotFoundError('Document not Found'))
@@ -19,9 +24,9 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router{
               .catch(next)
   }
   findById = (req, resp, next) => {
-    this.model.findById(req.params.id)
-              .then(this.render(resp, next))
-              .catch(next)
+    this.prepareOne(this.model.findById(req.params.id))
+        .then(this.render(resp, next))
+        .catch(next)
   }
   save = (req, resp, next) => {
     let document = new this.model(req.body)
