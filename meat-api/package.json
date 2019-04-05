@@ -4,8 +4,9 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
-    "start": "tsc && nodemon --watch --inspect",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch --inspect"
   },
   "keywords": [],
   "author": "",
