@@ -1,4 +1,5 @@
 import * as restify from 'restify'
+import { NotFoundError } from 'restify-errors'
 import {EventEmitter} from 'events'
 
 export abstract class Router extends EventEmitter{
@@ -14,10 +15,11 @@ export abstract class Router extends EventEmitter{
     return (document)=>{
       if(document){
         this.emit('beforeReader',document)
-        response.send(this.envelope(document))
+        response.json(this.envelope(document))
       }else{
-        response.send(404)
+        throw new NotFoundError('Documento não encontrado')
       }
+      return next(false)
     }
   }
 
@@ -32,7 +34,7 @@ export abstract class Router extends EventEmitter{
         }else{
           response.json(this.envelopeAll([]))
         }
-        next()
+        return next(false)
     }
   }
 }
