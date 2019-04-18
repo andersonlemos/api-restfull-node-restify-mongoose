@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es6",
-    "module": "commonjs",
-    "sourceMap": true
+    "target": "es2015",
+    "module": "commonjs"
   },
   "exclude": [
-    "**/*.test.ts"
+      "**/*.test.ts"
   ]
 }
