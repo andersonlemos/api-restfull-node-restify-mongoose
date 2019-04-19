@@ -2,7 +2,7 @@ import * as fs from 'fs'
 
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
-
+import {logger}  from '../common/logger'
 import {environment} from '../common/environment'
 import {Router} from '../common/router'
 import {mergePatchBodyParser} from './merge-patch.parser'
@@ -28,6 +28,7 @@ export class Server {
         const options: restify.ServerOptions = {
           name: 'meat-api',
           version: '1.0.0',
+          log:logger
         }
         if(environment.security.enableHTTPS){
           options.certificate = fs.readFileSync(environment.security.certificate),
@@ -35,6 +36,10 @@ export class Server {
         }
 
         this.application = restify.createServer(options)
+
+        this.application.pre(restify.plugins.requestLogger({
+          log:logger
+        }))
 
         this.application.use(restify.plugins.queryParser())
         this.application.use(restify.plugins.bodyParser())
@@ -51,6 +56,10 @@ export class Server {
         })
 
         this.application.on('restifyError', handleError)
+        this.application.on('after',restify.plugins.auditLogger({
+          log:logger,
+          event:'after'
+        }))  
 
       }catch(error){
         reject(error)
